@@ -1,6 +1,6 @@
-import { CBaseGamemode } from "./BaseGamemode"
-import { THREE, CGamebase } from "./Common"
-import { CPointerLockCamera } from "./PointerLockCamera"
+import { CBaseGamemode } from "../BaseGamemode"
+import { THREE, CGamebase } from "../Common"
+import { CPointerLockCamera } from "../PointerLockCamera"
 import { PerspectiveCamera } from "three";
 
 export class CSpellgameGamemode extends CBaseGamemode {

@@ -23,6 +23,9 @@ export class CBaseEntity extends THREE.Geometry{
     }
 
     setupNetworking(){
+        if(!this.networked)
+            return;
+
         //Mark for network changes if any key information is changed
         WatchJS.watch( this.networkedInfo, change => {
             this.networkUpdated = true;

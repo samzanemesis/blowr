@@ -23,6 +23,10 @@ export class CPlatformBrowser extends CPlatform{
 		
 	}
 
+	requestAnimationFrame(cb: any){
+		requestAnimationFrame(cb);
+	}
+
 	webglStart(){
 		var renderer = new THREE.WebGLRenderer({ alpha: false, antialias: false });
         renderer.setClearColor(0x555555, 1);

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 import { CBaseGamemode } from './BaseGamemode'
-import { CSpellgameGamemode } from './SpellgameGamemode'
+import { CSpellgameGamemode } from './Spellgame/SpellgameGamemode'
 
 import { CPlatform } from './Platform/Platform';
 
@@ -26,7 +26,7 @@ export class CGamebase {
     }
 
     setResolution( resolution:{width: number , height: number} ){
-        //this.renderer.setSize( resolution.width, resolution.height);
+        this.renderer.setSize( resolution.width, resolution.height);
         var camera = <THREE.PerspectiveCamera>this.gamemode.camera; 
         
         if(camera.aspect){

@@ -40,11 +40,12 @@ export class CPlatformNative extends CPlatform{
 		  // Hack for three.js, remove precision from shader
 		  var parentShaderSource = gl.shaderSource;
 		  gl.shaderSource = function( shader, string ){
-			  //console.log(string);
+
+			  string = string.replace(/highp/g,''); //Remove any explict instances of highp
 			  string = string.split('\n').filter(function(line){
-				  line = line.replace(/highp/g,'');
 				  return ! line.startsWith("precision");
 			  }).join('\n');
+			  
 			  return parentShaderSource(shader, string);
 		  };
 	  
@@ -69,9 +70,10 @@ export class CPlatformNative extends CPlatform{
 		var renderer = new THREE.WebGLRenderer({
 			canvas: canvas,
 			context: gl,
+			alpha: false
 		});
 
-		renderer.context = gl;
+		renderer.setClearColor(0x555555, 1);
 
 		return renderer;
 	  

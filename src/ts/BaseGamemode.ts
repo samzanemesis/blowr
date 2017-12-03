@@ -21,15 +21,14 @@ export class CBaseGamemode{
 				
 			var modelLoader = new THREE.JSONLoader();
 	
-			var geometry = new THREE.SphereGeometry(10,30,30);
-			var material = new THREE.MeshNormalMaterial();
+			var geometry = new THREE.SphereGeometry(10,3,3);
+			var material = new THREE.MeshPhysicalMaterial( {reflectivity: 0.5, roughness: 0.1} );
 			new CBaseEntity( this.scene );
 			
 			var mesh = new THREE.Mesh( geometry, material );
 			this.scene.add( mesh );
 			
-			this.scene.add(new THREE.AmbientLight(new THREE.Color(0.9,0.9,0.9).
-							getHex()));
+			this.scene.add(new THREE.DirectionalLight( new THREE.Color(0.9,0.9,0.9).getHex() ) );
 		}
 
 		protected setupLocalPlayer(){
