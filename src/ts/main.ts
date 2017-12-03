@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 import * as GAME from './game';
-import { CPlatform } from './Platform';
+import { CPlatform } from './Platform/Platform';
 
 var game: GAME.CGamebase;
 var platform: CPlatform;

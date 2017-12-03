@@ -21,7 +21,7 @@ namespace PhysicsEntity{
 			super( scene );
 			scene.AddEntityToScene(this);
 		
-			this.addNetworkedElement("Position", this.position);
+			//this.addNetworkedElement("Position", this.position);
 			
 			this.scene = scene;
 
@@ -32,7 +32,7 @@ namespace PhysicsEntity{
 		setupPhysicsMesh(shape: shapeType){
 			switch(shape){
 				case shapeType.BOX_MESH:
-					return new Physijs.BoxMesh( this.mesh, { color: 0x888888 }, this.mass );
+					//return new Physijs.BoxMesh( this.mesh, { color: 0x888888 }, this.mass );
 			}
 		}
 	}

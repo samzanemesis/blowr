@@ -14,7 +14,7 @@ export class CBaseEntity extends THREE.Geometry{
         super();
         scene.AddEntityToScene(this);
     
-        this.addNetworkedElement("Position", this.position);
+        //this.addNetworkedElement("Position", this.position);
         
         this.scene = scene;
 

@@ -9,9 +9,9 @@ export class CSpellgameGamemode extends CBaseGamemode {
 	}
 
 	protected setupLocalPlayer(){
-		this.camera = new CPointerLockCamera( this.scene, 70,  16  / 9, 0.1, 27000 ).camera;
-		//this.camera = new PerspectiveCamera( 70,  16  / 9, 0.1, 27000 );
-		this.camera.position.z = 1;
+		//this.camera = new CPointerLockCamera( this.scene, 70,  16  / 9, 0.1, 27000 ).camera;
+		this.camera = new PerspectiveCamera( 70,  16  / 9, 0.1, 27000 );
+		this.camera.position.z = 100;
 	}
-	
+	 
 }

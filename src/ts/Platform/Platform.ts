@@ -22,6 +22,10 @@ export class CPlatform{
 	webglStart(){
 		return new THREE.WebGLRenderer();
 	}
+
+	requestAnimationFrame(cb: any){};
+
+	render(scene: THREE.Scene, camera: THREE.Camera, renderTarget?: THREE.RenderTarget, forceClear?: boolean){};
 }
 
 import { CPlatformBrowser } from "./PlatformBrowser";
