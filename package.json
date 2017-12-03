@@ -1,0 +1,39 @@
+{
+  "name": "Spellgame",
+  "version": "0.0.1",
+  "description": "The coolest shit ever",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run web",
+    "web": "node build.js > public/bundle.js",
+    "native": "echo Hi I am a talking door!"
+  },
+  "engines": {
+    "node": "4.0.0"
+  },
+  "author": "Sam Pavlovic <sam@volvosoftware.com>",
+  "license": "Beerware",
+  "dependencies": {
+    "@types/node": "^8.0.53",
+    "@types/physijs": "0.0.27",
+    "@types/three": "latest",
+    "detect-node": "^2.0.3",
+    "gulp-typescript": "^3.2.3",
+    "melanke-watchjs": "^1.3.1",
+    "node-3d-ready-raub": "^0.2.8",
+    "physijs-browserify": "git+https://github.com/silviopaganini/physijs-browserify.git",
+    "three": "latest",
+    "three-pointerlock": "0.0.2"
+  },
+  "devDependencies": {
+    "browserify": "^14.5.0",
+    "browserify-versionify": "^1.0.6",
+    "gulp": "^3.9.1",
+    "gulp-browserify": "^0.5.1",
+    "gulp-util": "^3.0.8",
+    "tsify": "^3.0.3",
+    "typescript": "^2.6.1",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.9.0"
+  }
+}
