@@ -2,6 +2,7 @@ import * as THREE from 'three';
 
 import { CBaseGamemode } from './BaseGamemode'
 import { CSpellgameGamemode } from './Spellgame/SpellgameGamemode'
+import { CSplashScreenGamemode } from './SplashScreenGamemode'
 
 import { CPlatform } from './Platform/Platform';
 
@@ -9,12 +10,19 @@ export class CGamebase {
     renderer:THREE.WebGLRenderer;
     gamemode: CBaseGamemode;
     platform: CPlatform;
+    stats   : CGameStats;
+    config  : {forceVsync: Boolean}
 
     constructor( platform: CPlatform ) {
         this.platform = platform;
         this.renderer = platform.webglStart();
         
-        this.gamemode = new CSpellgameGamemode(this);
+        //Change this to your fav gamemode
+        this.gamemode = new CSplashScreenGamemode(this);
+
+        this.stats = new CGameStats( platform ); 
+        this.config = { forceVsync: false };
+        
         this.setResolution( {width: platform.resolution.width, height: platform.resolution.height} );
 
         platform.onresize = () =>{
@@ -22,28 +30,81 @@ export class CGamebase {
         }
 
         this.start();
-        
     }
 
+    //Maybe move this away from game?
     setResolution( resolution:{width: number , height: number} ){
         this.renderer.setSize( resolution.width, resolution.height);
-        var camera = <THREE.PerspectiveCamera>this.gamemode.camera; 
-        
-        if(camera.aspect){
-            camera.aspect = resolution.width  / resolution.height;
-            camera.updateProjectionMatrix();
+        var cameraClass = this.gamemode.camera.constructor.name; 
+        var camera;
+
+        switch(cameraClass){
+            case "PerspectiveCamera":
+                camera = <THREE.PerspectiveCamera>this.gamemode.camera; 
+                camera.aspect = resolution.width  / resolution.height;
+                camera.updateProjectionMatrix();
+                break;
+            case "OrthographicCamera":
+                var aspect = resolution.width  / resolution.height;
+                camera = <THREE.OrthographicCamera>this.gamemode.camera;
+                console.log(aspect);
+                camera.left = -(camera.top * aspect);
+                camera.right = (camera.top * aspect);
+                
+                camera.updateProjectionMatrix();
+                break;
         }
+
     }
 
     render() {
-        this.platform.requestAnimationFrame(() => this.render());
+
         this.gamemode.preFrame();
         this.gamemode.update();
         this.renderer.render( this.gamemode.scene , this.gamemode.camera);
         this.gamemode.postFrame();
+
+        this.stats.updateFrame();
+
+        this.platform.requestAnimationFrame(() => this.render());           
     }
 
     start() {
         this.render();
+    }
+}
+
+class CGameStats{
+    private platform: CPlatform;
+
+    public frametime: number;
+    public immediateFramerate: number;
+    public framerate = 0;
+
+    private prevTime: number;
+    private currentTime: number;
+    private frameCount = 0;
+
+    constructor(platform: CPlatform){
+        this.platform = platform;
+        this.currentTime = this.platform.now();
+        this.updateFramerate();
+    }
+
+    updateFrame(){
+        this.prevTime = this.currentTime;
+        this.currentTime = this.platform.now();
+
+        this.frametime = this.currentTime - this.prevTime;
+        this.immediateFramerate = 1 / this.frametime;
+
+        this.frameCount++;
+    }
+
+    updateFramerate(){
+        this.framerate = this.frameCount;
+        this.frameCount = 0; 
+        console.log( this.framerate );
+        setTimeout( () => this.updateFramerate(), 1000);
     }
 }

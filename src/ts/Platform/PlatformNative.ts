@@ -7,10 +7,13 @@ import * as THREE from 'three';
 
 export class CPlatformNative extends CPlatform{
 	document: any;
+	forceVsync: Boolean
 	
 	constructor(){
 		super(false);
 		console.log("Running as Native!");
+
+		this.forceVsync = true;
 		
 		this.document = require("node-webgl-raub").document()
 		//Finished setting up everything
@@ -25,8 +28,17 @@ export class CPlatformNative extends CPlatform{
 	}
 
 	requestAnimationFrame(cb: any){
-		this.document.requestAnimationFrame(cb);
-	}	
+		
+		if(this.forceVsync)
+			setTimeout( () => { this.document.requestAnimationFrame(cb) }, 1000/60 ); //Framerate implicit as 60fps
+        else
+			this.document.requestAnimationFrame(cb);
+	}
+
+	now(){
+		//return process.uptime();
+		return process.hrtime()[0] + (process.hrtime()[1] * 0.000000001);
+	}
 
 	webglStart(){
 		var canvas = this.document.createElement("three-canvas");
@@ -69,11 +81,12 @@ export class CPlatformNative extends CPlatform{
 
 		var renderer = new THREE.WebGLRenderer({
 			canvas: canvas,
-			context: gl,
+			//context: gl,
 			alpha: false
 		});
 
-		renderer.setClearColor(0x555555, 1);
+		renderer.context = gl;
+		//renderer.setClearColor(0x555555, 1);
 
 		return renderer;
 	  

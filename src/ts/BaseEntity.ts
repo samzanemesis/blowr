@@ -52,4 +52,8 @@ export class CBaseEntity extends THREE.Geometry{
     destroy(){
         this.scene.DestroyEntity(this);
     }
+
+    getClass(){
+        return this.constructor.name;
+    }
 }

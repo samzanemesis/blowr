@@ -25,6 +25,8 @@ export class CPlatform{
 
 	requestAnimationFrame(cb: any){};
 
+	now(){ return 0; };
+
 	render(scene: THREE.Scene, camera: THREE.Camera, renderTarget?: THREE.RenderTarget, forceClear?: boolean){};
 }
 

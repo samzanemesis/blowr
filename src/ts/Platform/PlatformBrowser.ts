@@ -23,6 +23,10 @@ export class CPlatformBrowser extends CPlatform{
 		
 	}
 
+	now(){
+		return performance.now()/1000;
+	}
+
 	requestAnimationFrame(cb: any){
 		requestAnimationFrame(cb);
 	}
