@@ -10,7 +10,7 @@ export class CSpellgameGamemode extends CBaseGamemode {
 
 	protected setupScene(){
 		this.scene = new CScene();
-		this.scene.setGravity(new THREE.Vector3( 0, -30, 0 ));
+		//this.scene.setGravity(new THREE.Vector3( 0, -30, 0 ));
 
 		var modelLoader = new THREE.JSONLoader();
 

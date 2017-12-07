@@ -2,10 +2,7 @@ import { CBaseEntity } from './BaseEntity';
 import * as THREE from 'three';
 import { CPlatform, gPlatform } from "./Platform/Platform"
 
-var Ammo = require('../libs/ammo.js');
-//var Physijs = require('../libs/physi.js')(THREE, Ammo);
-
-export class CScene extends Physijs.Scene{
+export class CScene extends THREE.Scene{
     private entityList: CBaseEntity[] = [];
     //scenePhysics: Physijs.Scene;
 
@@ -14,18 +11,14 @@ export class CScene extends Physijs.Scene{
         //this.scenePhysics = new Physijs.Scene;
     }
 
-    public simulate(timeStep?:number, maxSubSteps?:number){
-        //Run physics
-        //this.scenePhysics.simulate();
-        
+    public simulate(){        
         this.entityList.forEach(entity => {
             entity.preSimulate();
             entity.simulate();
             entity.postSimulate();
         })
-
-        return super.simulate(timeStep, maxSubSteps);
     }
+    
     AddEntityToScene(entity:CBaseEntity){
         this.entityList.push(entity);
     }

@@ -6,9 +6,8 @@ export var gPlatform: CPlatform;
 export class CPlatform{
 	operatingSystem: String
 	resolution: { width: number, height:number };
-	onload: () => any
-	onresize: () => any
-	physijs: any; //Fixme: Add typing for this
+	onload: () => any;
+	onresize: () => any;
 
 	constructor(platformCheck = true){
 		gPlatform = this;

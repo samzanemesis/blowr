@@ -36,6 +36,6 @@ export class CBaseGamemode{
 		}
 
 		public update(){
-			this.scene.simulate(undefined, 1 );
+			this.scene.simulate();
 		}
 	}
