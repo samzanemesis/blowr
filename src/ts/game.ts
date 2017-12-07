@@ -13,17 +13,15 @@ export class CGamebase {
     gamemode: CBaseGamemode;
     platform: CPlatform;
     stats   : CGameStats;
-    config  : {forceVsync: Boolean}
 
     constructor( platform: CPlatform ) {
         this.platform = platform;
         this.renderer = platform.webglStart();
         
         //Change this to your fav gamemode
-        this.gamemode = new CSplashScreenGamemode(this);
+        this.gamemode = new CSpellgameGamemode(this);
 
-        this.stats = new CGameStats( platform ); 
-        this.config = { forceVsync: false };
+        this.stats = new CGameStats( platform );
         
         this.setResolution( {width: platform.resolution.width, height: platform.resolution.height} );
 
@@ -49,14 +47,11 @@ export class CGamebase {
             case "OrthographicCamera":
                 var aspect = resolution.width  / resolution.height;
                 camera = <THREE.OrthographicCamera>this.gamemode.camera;
-                console.log(aspect);
                 camera.left = -(camera.top * aspect);
                 camera.right = (camera.top * aspect);
-                
                 camera.updateProjectionMatrix();
                 break;
         }
-
     }
 
     render() {
@@ -108,8 +103,7 @@ class CGameStats{
 
     updateFramerate(){
         this.framerate = this.frameCount;
-        this.frameCount = 0; 
-        console.log( this.framerate );
+        this.frameCount = 0;
         setTimeout( () => this.updateFramerate(), 1000);
     }
 }

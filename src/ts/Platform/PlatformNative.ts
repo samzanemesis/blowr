@@ -3,6 +3,12 @@ import { setTimeout } from "timers";
 
 import * as THREE from 'three';
 
+//Physics stuff
+const NodePhysijs = require('nodejs-physijs');
+//const THREE = NodePhysijs.THREE;
+const Ammo = NodePhysijs.Ammo;
+const Physijs = NodePhysijs.Physijs(THREE, Ammo);
+
 //requestAnimationFrame = document.requestAnimationFrame;
 
 export class CPlatformNative extends CPlatform{
@@ -14,6 +20,8 @@ export class CPlatformNative extends CPlatform{
 		console.log("Running as Native!");
 
 		this.forceVsync = false;
+
+		this.physijs = Physijs;
 		
 		this.document = require("node-webgl-raub").document()
 		//Finished setting up everything

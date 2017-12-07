@@ -1,6 +1,11 @@
 import { CPlatform } from "./Platform"
 import * as THREE from 'three';
 
+//Physics stuff
+var Physijs = require('physijs-browserify')(THREE);
+Physijs.scripts.worker = '/libs/physi-worker.js';
+Physijs.scripts.ammo = '/libs/ammo.js';
+
 export class CPlatformBrowser extends CPlatform{
 	constructor(){
 		super(false);
@@ -8,6 +13,8 @@ export class CPlatformBrowser extends CPlatform{
 
 		console.log("Running on Browser");
 		
+		this.physijs = Physijs;
+
 		window.onload = () => {
 			this.onload();
 		};

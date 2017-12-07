@@ -1,13 +1,18 @@
 import * as THREE from 'three';
 var isNode = require('detect-node');
 
+export var gPlatform: CPlatform;
+
 export class CPlatform{
 	operatingSystem: String
 	resolution: { width: number, height:number };
 	onload: () => any
 	onresize: () => any
+	physijs: any; //Fixme: Add typing for this
 
 	constructor(platformCheck = true){
+		gPlatform = this;
+		
 		if(platformCheck){
 			if(isNode){
 				//Running on NodeJS platform
