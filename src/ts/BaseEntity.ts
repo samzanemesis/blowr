@@ -10,16 +10,23 @@ export class CBaseEntity extends THREE.Geometry{
     networkUpdated: boolean = false;
     networkedInfo: Array<any> = [];
 
-    constructor(scene: CScene){
+    constructor(scene: CScene, model?: string | THREE.Mesh){
         super();
         scene.AddEntityToScene(this);
-    
-        //this.addNetworkedElement("Position", this.position);
-        
+
         this.scene = scene;
 
-
         this.setupNetworking();
+
+        if(model){
+            if(model.constructor){
+                this.mesh = <THREE.Mesh>model;
+            }else{
+                //modelLoader
+            }
+            scene.add(this.mesh);
+        }
+            
     }
 
     setupNetworking(){
@@ -38,15 +45,19 @@ export class CBaseEntity extends THREE.Geometry{
     }
 
     preSimulate(){
+        // Reset network update flag before the simulation, things that change 
+        // network flags in simulate() will trigger the watcher and update this
+        // flag automatically.
         this.networkUpdated = false;
     }
-
+ 
     simulate(){
     }
     
 
     postSimulate(){
-        //Check for changes in simulation, if so, pass flag that entity is marked for client update
+        // Check for changes in simulation, if so, pass flag that entity is
+        // marked for client update
     }
 
     destroy(){
@@ -55,5 +66,21 @@ export class CBaseEntity extends THREE.Geometry{
 
     getClass(){
         return this.constructor.name;
+    }
+
+    getAbsPosition(){
+        return this.mesh.position;
+    }
+
+    getAbsRotation(){
+        return this.mesh.rotation;
+    }
+
+    setAbsPosition( position: THREE.Vector3){
+        this.mesh.position = position;
+    }
+
+    setAbsRotation( rotation: THREE.Euler){
+        this.mesh.rotation = rotation;
     }
 }

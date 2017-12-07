@@ -1,5 +1,5 @@
 import { CBaseGamemode } from "../BaseGamemode"
-import { THREE, CGamebase } from "../Common"
+import { THREE, CGamebase, CScene, CBaseEntity } from "../Common"
 import { CPointerLockCamera } from "../PointerLockCamera"
 import { PerspectiveCamera } from "three";
 
@@ -8,9 +8,24 @@ export class CSpellgameGamemode extends CBaseGamemode {
 		super(gamebase);
 	}
 
+	protected setupScene(){
+		this.scene = new CScene();
+		this.scene.setGravity(new THREE.Vector3( 0, -30, 0 ));
+
+		var modelLoader = new THREE.JSONLoader();
+
+		var geometry = new THREE.SphereGeometry(10,3,3);
+		var material = new THREE.MeshPhysicalMaterial( {reflectivity: 0.5, roughness: 0.1} );
+		var mesh = new THREE.Mesh( geometry, material );
+
+		new CBaseEntity( this.scene, mesh );
+		
+		this.scene.add(new THREE.DirectionalLight( new THREE.Color(0.9,0.9,0.9).getHex() ) );
+	}
+
 	protected setupLocalPlayer(){
 		//this.camera = new CPointerLockCamera( this.scene, 70,  16  / 9, 0.1, 27000 ).camera;
-		this.camera = new PerspectiveCamera( 70,  16  / 9, 0.1, 27000 );
+		this.camera = new PerspectiveCamera( 90,  16  / 9, 0.1, 27000 );
 		this.camera.position.z = 100;
 	}
 	 

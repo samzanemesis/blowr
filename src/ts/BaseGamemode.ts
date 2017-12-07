@@ -13,22 +13,10 @@ export class CBaseGamemode{
 		constructor(gamebase: CGamebase){
 			this.setupScene();
 			this.setupLocalPlayer();
-
 		}
 
 		protected setupScene(){
 			this.scene = new CScene();
-				
-			var modelLoader = new THREE.JSONLoader();
-	
-			var geometry = new THREE.SphereGeometry(10,3,3);
-			var material = new THREE.MeshPhysicalMaterial( {reflectivity: 0.5, roughness: 0.1} );
-			new CBaseEntity( this.scene );
-			
-			var mesh = new THREE.Mesh( geometry, material );
-			this.scene.add( mesh );
-			
-			this.scene.add(new THREE.DirectionalLight( new THREE.Color(0.9,0.9,0.9).getHex() ) );
 		}
 
 		protected setupLocalPlayer(){
@@ -48,6 +36,6 @@ export class CBaseGamemode{
 		}
 
 		public update(){
-			this.scene.simulate();
+			this.scene.simulate(undefined, 1 );
 		}
 	}
