@@ -4,12 +4,13 @@ import { gGameStats } from "./game";
 
 import * as THREE from 'three';
 
-//God this entire code is artrocious
+var colorTable = [ 0xF0433A, 0xFFFFFF, 0xF043FF, 0xF04300, 0xFFFFFF ];
+
 export class CSplashScreenLogo extends CBaseEntity {
 
     flapLogoFront: THREE.Mesh;
     flapLogoBack: THREE.Mesh;
-    backgroundMesh: THREE.Mesh;
+    backgroundMesh: THREE.Mesh[];
     logoScale: number
 
     runTime: number;
@@ -19,17 +20,20 @@ export class CSplashScreenLogo extends CBaseEntity {
 
         this.runTime = 0;
 
-        this.backgroundMesh = new THREE.Mesh( 
-            new THREE.PlaneGeometry(8,8,1,1), 
-            new THREE.MeshBasicMaterial() );
+        this.backgroundMesh = [];
+        for (let i = 0; i < 5; i++) {
+            this.backgroundMesh[i] = new THREE.Mesh( 
+                new THREE.PlaneGeometry(8,8,1,1), 
+                new THREE.MeshBasicMaterial( {color: colorTable[i] }) );
+            this.scene.add( this.backgroundMesh[i] );
+        }
+        
         this.flapLogoFront = new THREE.Mesh( 
             new THREE.Geometry(), 
             new THREE.MeshBasicMaterial( {color: 0xF0433A } ) );
         this.flapLogoBack = new THREE.Mesh( 
             new THREE.Geometry(), 
             new THREE.MeshBasicMaterial( {color: 0x820333} ) );
-
-        this.scene.add( this.backgroundMesh );
         
         this.scene.add( this.flapLogoBack );
         this.scene.add( this.flapLogoFront );
@@ -39,7 +43,7 @@ export class CSplashScreenLogo extends CBaseEntity {
         this.runTime += gGameStats.frametime;
 
         var logoScale = 5;
-        var newGeo = this.createLogoGeometry( logoScale, Math.pow( ( Math.cos( Math.min(this.runTime+1,2) * Math.PI) + 1 ) * 0.5 , 4 ) );
+        var newGeo = this.createLogoGeometry( logoScale, Math.pow( ( Math.cos( Math.min( (this.runTime+0.75) * 1.25 ,2) * Math.PI) + 1 ) * 0.5 , 4 ) );
         
         this.flapLogoBack.geometry = newGeo.back;
         this.flapLogoFront.geometry = newGeo.front;
@@ -51,9 +55,18 @@ export class CSplashScreenLogo extends CBaseEntity {
         this.flapLogoBack.position.y = -(logoScale*0.5);
 
         //Update the back planes
-        var planeScale = -0.5 * (2.71828 ** (-6 * this.runTime)) * (
-            -2 * (2.71828 ** (6 * this.runTime)) + Math.sin(12 * this.runTime) + 2 * Math.cos(12 * this.runTime)) * 8;
-        this.backgroundMesh.geometry = new THREE.PlaneGeometry(planeScale,planeScale,1,1);
+        for (let i = 0; i < 5; i++) {
+            var stuff = Math.max(this.runTime - (i*0.05),0);
+            var planeScale = -0.5 * (2.71828 ** (-6 * stuff  )) * (
+                -2 * (2.71828 ** (6 * stuff )) + Math.sin(12 * stuff ) + 2 * Math.cos(12 * stuff )) * 8;
+
+            //Hack, don't spring the rest back in
+            if(this.runTime > 0.5 && i < 4){
+                planeScale = 1;
+            }
+
+            this.backgroundMesh[i].geometry = new THREE.PlaneGeometry(planeScale,planeScale,1,1);
+        }
 
     }
 
