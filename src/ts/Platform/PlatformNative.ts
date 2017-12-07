@@ -13,7 +13,7 @@ export class CPlatformNative extends CPlatform{
 		super(false);
 		console.log("Running as Native!");
 
-		this.forceVsync = true;
+		this.forceVsync = false;
 		
 		this.document = require("node-webgl-raub").document()
 		//Finished setting up everything

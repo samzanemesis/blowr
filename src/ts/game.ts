@@ -6,6 +6,8 @@ import { CSplashScreenGamemode } from './SplashScreenGamemode'
 
 import { CPlatform } from './Platform/Platform';
 
+export var gGameStats: CGameStats;
+
 export class CGamebase {
     renderer:THREE.WebGLRenderer;
     gamemode: CBaseGamemode;
@@ -77,8 +79,8 @@ export class CGamebase {
 class CGameStats{
     private platform: CPlatform;
 
-    public frametime: number;
-    public immediateFramerate: number;
+    public frametime = 0;
+    public immediateFramerate = 0;
     public framerate = 0;
 
     private prevTime: number;
@@ -89,6 +91,9 @@ class CGameStats{
         this.platform = platform;
         this.currentTime = this.platform.now();
         this.updateFramerate();
+
+        //Update this singleton to be easily accessed anywhere
+        gGameStats = this;
     }
 
     updateFrame(){

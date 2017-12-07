@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { CGamebase } from "./game";
+import { CGamebase, gGameStats } from "./game";
 import { CBaseGamemode } from "./BaseGamemode"
 import { CSplashScreenLogo } from "./SplashScreenLogo"
 
@@ -21,8 +21,9 @@ export class CSplashScreenGamemode extends CBaseGamemode{
     }
 
     protected setupLocalPlayer(){
-        this.camera = new THREE.OrthographicCamera( -10,10,-10,10,0.01,100 );
+        this.camera = new THREE.OrthographicCamera( 10,-10,-10,10,0.01,100 );
         this.camera.position.z = 1;
+        this.camera.position.x
     }
 
     protected initGame(){
@@ -38,5 +39,6 @@ export class CSplashScreenGamemode extends CBaseGamemode{
 
     public update(){
         this.scene.simulate();
+        //this.camera.rotateX( gGameStats.frametime );
     }
 }
