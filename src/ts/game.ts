@@ -19,7 +19,7 @@ export class CGamebase {
         this.renderer = platform.webglStart();
         
         //Change this to your fav gamemode
-        this.gamemode = new CSpellgameGamemode(this);
+        this.gamemode = new CSplashScreenGamemode(this);
 
         this.stats = new CGameStats( platform );
         

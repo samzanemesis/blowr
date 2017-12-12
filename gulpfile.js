@@ -21,7 +21,7 @@ var browserifyTS = browserify({
     entries: ['src/ts/main.ts'],
     cache: {},
     packageCache: {}
-}).plugin(tsify);
+}).plugin(tsify).ignore('ammo-node');
 
 var watchedBrowserify = watchify(browserifyTS);
 
@@ -46,6 +46,10 @@ gulp.task("default", ["copy-html"], func => {
 gulp.task("bundle", ["copy-html"], func => {
 	return browserifyTS
     .bundle()
+    .pipe(stripCode({
+        start_comment: "start-test-block",
+        end_comment: "end-test-block"
+      }))
     .pipe(source('bundle.js'))
 	.pipe(gulp.dest("dist"));
 });

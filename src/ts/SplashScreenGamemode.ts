@@ -5,11 +5,16 @@ import { CSplashScreenLogo } from "./SplashScreenLogo"
 
 import { CBaseEntity } from "./BaseEntity";
 import { CScene } from "./Scene";
+import { CSpellgameGamemode } from './Spellgame/SpellgameGamemode';
 
 export class CSplashScreenGamemode extends CBaseGamemode{
 
+    //private fadeOutShader:THREE.ShaderPass;
+
     constructor(gamebase: CGamebase){
         super( gamebase );
+        
+        setTimeout( () => { this.finishSplashscreen( gamebase )}, 3000 );
     }
 
     protected setupScene(){
@@ -18,6 +23,7 @@ export class CSplashScreenGamemode extends CBaseGamemode{
         new CSplashScreenLogo( this.scene );
         
         //this.scene.add(new THREE.DirectionalLight( new THREE.Color(0.9,0.9,0.9).getHex() ) );
+
     }
 
     protected setupLocalPlayer(){
@@ -40,5 +46,11 @@ export class CSplashScreenGamemode extends CBaseGamemode{
     public update(){
         this.scene.simulate();
         //this.camera.rotateX( gGameStats.frametime );
+    }
+
+    finishSplashscreen( gamebase: CGamebase ){
+        this.scene = undefined;
+        this.camera = null;
+        gamebase.gamemode = new CSpellgameGamemode(gamebase);
     }
 }
