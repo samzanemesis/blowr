@@ -30,8 +30,6 @@
     "browserify-versionify": "^1.0.6",
     "gulp": "^3.9.1",
     "gulp-browserify": "^0.5.1",
-    "gulp-preprocess": "^2.0.0",
-    "gulp-remove-code": "^1.0.2",
     "gulp-util": "^3.0.8",
     "tsify": "^3.0.3",
     "typescript": "^2.6.1",

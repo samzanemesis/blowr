@@ -18,7 +18,7 @@ export class CScene extends THREE.Scene{
 
     public simulate(){        
         
-        this.physicsWorld.stepSimulation( gGameStats.frametime , 10);
+        this.physicsWorld.stepSimulation( gGameStats.frametime, 10);
         
         this.entityList.forEach(entity => {
             entity.preSimulate();
@@ -43,7 +43,7 @@ export class CScene extends THREE.Scene{
 		const solver = new Ammo.btSequentialImpulseConstraintSolver();
 
 		this.physicsWorld = new Ammo.btDiscreteDynamicsWorld( dispatcher, overlappingPairCache, solver, collisionConfiguration);
-		this.physicsWorld.setGravity( new Ammo.btVector3(0, -9.8, 0));
+		this.physicsWorld.setGravity( new Ammo.btVector3(0, -60, 0));
     }
 
     addRigidBody(body){

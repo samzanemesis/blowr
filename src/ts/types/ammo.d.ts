@@ -38,7 +38,20 @@ declare namespace Ammo {
 		export class btSphereShape extends btConvexShape {
 			constructor(radius: number);
 		}
-	
+		
+		export class btCylinderShape extends btConvexShape {
+			constructor(halfExtents: btVector3);
+		}
+
+		export class btConeShape extends btConvexShape {
+			constructor(radius: number, height: number);
+		}
+
+		export class btCapsuleShape extends btConvexShape {
+			constructor(radius: number, height: number);
+		}
+
+
 		export class btRigidBody {
 			constructor(info: btRigidBodyConstructionInfo);
 			setActivationState(s: number);
@@ -46,32 +59,32 @@ declare namespace Ammo {
 			getWorldTransform(transform: btTransform);
 
 			proceedToTransform (newTrans: btTransform);
-			predictIntegratedTransform (step: btScalar, predictedTransform: btTransform);
-			saveKinematicState ( step: btScalar);
+			predictIntegratedTransform (step: number, predictedTransform: btTransform);
+			saveKinematicState ( step: number);
 			applyGravity ();
 			setGravity (acceleration: btVector3);
 			getGravity (): btVector3;
-			setDamping ( lin_damping: btScalar,  ang_damping: btScalar);
-			getLinearDamping () : btScalar;
-			getAngularDamping () : btScalar;
-			getLinearSleepingThreshold () : btScalar;
-			getAngularSleepingThreshold () : btScalar;
-			applyDamping ( timeStep: btScalar);
+			setDamping ( lin_damping: number,  ang_damping: number);
+			getLinearDamping () : number;
+			getAngularDamping () : number;
+			getLinearSleepingThreshold () : number;
+			getAngularSleepingThreshold () : number;
+			applyDamping ( timeStep: number);
 			getCollisionShape (): btCollisionShape;
 			getCollisionShape (): btCollisionShape;
-			setMassProps ( mass: btScalar,  inertia: btVector3);
+			setMassProps ( mass: number,  inertia: btVector3);
 			getLinearFactor (): btVector3;
 			setLinearFactor ( linearFactor: btVector3);
-			getInvMass () : btScalar;
+			getInvMass () : number;
 			getInvInertiaTensorWorld (): btMatrix3x3;
-			integrateVelocities ( step: btScalar);
+			integrateVelocities ( step: number);
 			setCenterOfMassTransform ( xform: btTransform);
 			applyCentralForce ( force: btVector3);
 			getTotalForce (): btVector3;
 			getTotalTorque (): btVector3;
 			getInvInertiaDiagLocal (): btVector3;
 			setInvInertiaDiagLocal ( diagInvInertia: btVector3);
-			setSleepingThresholds ( linear: btScalar,  angular: btScalar);
+			setSleepingThresholds ( linear: number,  angular: number);
 			applyTorque ( torque: btVector3);
 			applyForce ( force: btVector3,  rel_pos: btVector3);
 			applyCentralImpulse ( impulse: btVector3);
@@ -89,9 +102,9 @@ declare namespace Ammo {
 			getVelocityInLocalPoint ( rel_pos: btVector3): btVector3;
 			translate ( v: btVector3);
 			getAabb ( aabbMin: btVector3,  aabbMax: btVector3);
-			computeImpulseDenominator (  pos: btVector3 ,  normal: btVector3): btScalar;
-			computeAngularImpulseDenominator ( axis: btVector3 ): btScalar;
-			updateDeactivation ( timeStep: btScalar);
+			computeImpulseDenominator (  pos: btVector3 ,  normal: btVector3): number;
+			computeAngularImpulseDenominator ( axis: btVector3 ): number;
+			updateDeactivation ( timeStep: number);
 			wantsSleeping (): Boolean;
 			getBroadphaseProxy (): btBroadphaseProxy;
 			getBroadphaseProxy (): btBroadphaseProxy;
@@ -100,7 +113,7 @@ declare namespace Ammo {
 			getMotionState (): btMotionState;
 			setMotionState ( motionState: btMotionState);
 			setAngularFactor ( angFac: btVector3);
-			setAngularFactor ( angFac: btScalar);
+			setAngularFactor ( angFac: number);
 			getAngularFactor (): btVector3;
 			isInWorld (): Boolean;
 			checkCollideWithOverride ( co: btCollisionObject) : Boolean;
@@ -110,7 +123,7 @@ declare namespace Ammo {
 			getNumConstraintRefs (): number;;
 			setFlags (flags: number);
 			getFlags(): number;;
-			computeGyroscopicForce ( maxGyroscopicForce: btScalar): btVector3 ;
+			computeGyroscopicForce ( maxGyroscopicForce: number): btVector3 ;
 			calculateSerializeBufferSize(): Number;
 			serialize (dataBuffer, serializer: btSerializer): Number;	 //Actually a char
 			serializeSingleObject (serializer: btSerializer);

@@ -67,6 +67,7 @@ export class CGamebase {
     }
 
     start() {
+        this.renderer.shadowMap.enabled = true;
         this.render();
     }
 }
@@ -104,6 +105,7 @@ class CGameStats{
     updateFramerate(){
         this.framerate = this.frameCount;
         this.frameCount = 0;
+        console.log(this.framerate);
         setTimeout( () => this.updateFramerate(), 1000);
     }
 }

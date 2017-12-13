@@ -18,15 +18,21 @@ export class CBaseEntity extends THREE.Geometry{
 
         this.setupNetworking();
 
+
         if(model){
             if(model.constructor){
                 this.mesh = <THREE.Mesh>model;
+                this.mesh.receiveShadow = true;
+                this.mesh.castShadow = true; 
             }else{
                 //modelLoader
             }
             scene.add(this.mesh);
         }
+        
+        if(this.mesh){
             
+        }
     }
 
     setupNetworking(){
@@ -77,7 +83,7 @@ export class CBaseEntity extends THREE.Geometry{
     }
 
     setAbsPosition( position: THREE.Vector3){
-        this.mesh.position = position;
+        this.mesh.position.set( position.x, position.y, position.z );
     }
 
     setAbsRotation( rotation: THREE.Euler){

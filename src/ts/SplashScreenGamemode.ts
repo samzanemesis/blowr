@@ -50,7 +50,8 @@ export class CSplashScreenGamemode extends CBaseGamemode{
 
     finishSplashscreen( gamebase: CGamebase ){
         this.scene = undefined;
-        this.camera = null;
+        this.camera = undefined;
         gamebase.gamemode = new CSpellgameGamemode(gamebase);
+        gamebase.platform.onresize();
     }
 }

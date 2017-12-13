@@ -17,8 +17,12 @@ export class CPhysicsEntity extends CBaseEntity{
 	body: Ammo.btRigidBody;
 	private worldTransform = new Ammo.btTransform();
 	
-	constructor(scene: CScene, model?: string | THREE.Mesh, shape?: shapeType, mass?: number){
+	constructor(scene: CScene, model?: string | THREE.Mesh, shape = shapeType.BOX_MESH, mass = 0){
 		super( scene, model );
+
+		//Can this be 0?
+		if(!mass)
+			mass = 0;
 
 		this.body = this.setupPhysics( shape, mass );
 	}
@@ -26,42 +30,36 @@ export class CPhysicsEntity extends CBaseEntity{
 	setupPhysics(shape: shapeType, mass:number){
 		var physicsShape = this.getPhysicsShape( shape );
 		
-		//Can this be 0?
-		if(!mass)
-			mass = 10;
-		
 		var info = this.createRigidBodyInfo(physicsShape, mass );
 		var body = new Ammo.btRigidBody(info);
 
 		this.scene.addRigidBody(body);
-		body.setActivationState(4) // Disable deactivation
+		
 
 		return body;
 	}
 
-	private getPhysicsShape( shape?: shapeType ){
-		var physicsShape;
+	private getPhysicsShape( shape: shapeType ){
+		let physicsShape;
+		let bbox;
 
-		if(!shape)
-			shape = shapeType.BOX_MESH;
-		
 		switch(shape){
 			case shapeType.BOX_MESH:
-				var bbox = new THREE.Box3().setFromObject( this.mesh ).getSize();
-				physicsShape = new Ammo.btBoxShape( new Ammo.btVector3(bbox.x, bbox.y, bbox.z ) );
+				bbox = new THREE.Box3().setFromObject( this.mesh ).getSize();
+				physicsShape = new Ammo.btBoxShape( new Ammo.btVector3(bbox.x * 0.5, bbox.y * 0.5, bbox.z * 0.5 ) );
 				break;
 			case shapeType.CAPSULE_MESH:
-				physicsShape = new Ammo.btConvexShape();
+				physicsShape = new Ammo.btCapsuleShape(bbox.x,bbox.y);
 				break;
 			case shapeType.CYLINDER_MESH:
-				physicsShape = new Ammo.btConvexShape();
+				physicsShape = new Ammo.btCylinderShape( new Ammo.btVector3(bbox.x * 0.5, bbox.y * 0.5, bbox.z * 0.5 ) );
 				break;
 			case shapeType.CONVEX_MESH:
 				physicsShape = new Ammo.btConvexShape();
 				break;
 			case shapeType.SPHERE_MESH:
-				var radius = new THREE.Box3().setFromObject( this.mesh ).getBoundingSphere().radius;
-				physicsShape = new Ammo.btSphereShape(radius);
+				bbox = new THREE.Box3().setFromObject( this.mesh ).getSize();
+				physicsShape = new Ammo.btSphereShape( bbox.x * 0.5 );
 				break;
 			case shapeType.MESH:
 				physicsShape = new Ammo.btConvexShape();
@@ -82,7 +80,7 @@ export class CPhysicsEntity extends CBaseEntity{
 		transform.setRotation(new Ammo.btQuaternion(this.mesh.quaternion.x, this.mesh.quaternion.y, this.mesh.quaternion.z, this.mesh.quaternion.w));
 		const motionState = new Ammo.btDefaultMotionState(transform);
 
-		const localInertia = new Ammo.btVector3(0, 0, 0);
+		const localInertia = new Ammo.btVector3(0, 100, 0);
 		physicsShape.calculateLocalInertia(mass, localInertia);
 
 		var rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, physicsShape, localInertia);
@@ -91,7 +89,7 @@ export class CPhysicsEntity extends CBaseEntity{
 	}
 
 	//Sync physics and mesh data
-	updatePhysics(){
+	private updatePhysics(){
 		//Object is not sleeping
 		if( this.body.getMotionState() ){
 			this.body.getMotionState().getWorldTransform( this.worldTransform );
@@ -104,19 +102,30 @@ export class CPhysicsEntity extends CBaseEntity{
 		}
 	}
 
-	setAbsPosition( position: THREE.Vector3){
-		this.mesh.position = position;
-		this.worldTransform.setOrigin( new Ammo.btVector3(position.x, position.y, position.z));
+	public setAbsPosition( position: THREE.Vector3){
+		this.mesh.position.set( position.x, position.y, position.z );
+		this.body.activate(true);
+		this.body.getMotionState().getWorldTransform( this.worldTransform );
+		this.worldTransform.setOrigin( new Ammo.btVector3( position.x, position.y, position.z ) );
+		this.body.getMotionState().setWorldTransform( this.worldTransform );
+		this.body.setWorldTransform( this.worldTransform );
     }
 
-    setAbsRotation( rotation: THREE.Euler){
-		this.mesh.rotation = rotation;
-		//TODO: Euler to Quartenion
-		//this.worldTransform.setRotation()
+    public setAbsRotation( rotation: THREE.Euler){
+		this.mesh.rotation.set( rotation.x, rotation.y, rotation.z );
+		this.body.activate(true);
+		this.body.getMotionState().getWorldTransform( this.worldTransform );
+		this.worldTransform.setRotation( /* TODO CONVERT TO QUARTERNION */ );
+		this.body.getMotionState().setWorldTransform( this.worldTransform );
+		this.body.setWorldTransform( this.worldTransform );
 	}
 	
-	setAbsVelocity( velocity: THREE.Vector3 ){
+	public setAbsVelocity( velocity: THREE.Vector3 ){
 		this.body.setLinearVelocity( new Ammo.btVector3(velocity.x, velocity.y, velocity.z));
+	}
+
+	public setAbsAngularVelocity( velocity: THREE.Vector3 ){
+		this.body.setAngularVelocity(  new Ammo.btVector3(velocity.x, velocity.y, velocity.z));
 	}
 
 	simulate(){
