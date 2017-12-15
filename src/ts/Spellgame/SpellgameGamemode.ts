@@ -4,6 +4,7 @@ import { CPointerLockCamera } from "../PointerLockCamera"
 import { PerspectiveCamera, MeshStandardMaterial } from "three";
 
 import { CPhysicsEntity, shapeType } from "../PhysicsEntity"
+import { CBaseCharacter } from "../BaseCharacter";
 
 export class CSpellgameGamemode extends CBaseGamemode {
 	constructor(gamebase: CGamebase){
@@ -17,25 +18,27 @@ export class CSpellgameGamemode extends CBaseGamemode {
 		var modelLoader = new THREE.JSONLoader();
 
 		var geometry = new THREE.BoxGeometry(30,30,30);
-		var material = new THREE.MeshPhysicalMaterial( {reflectivity: 0.5, roughness: 0.1} );
+		var material = new THREE.MeshPhysicalMaterial( { metalness: 0.5 , roughness: 0.4 } );
 		var mesh = new THREE.Mesh( geometry, material );
 
 		var ground = new CPhysicsEntity( this.scene, 
 			new THREE.Mesh( 
 				new THREE.BoxGeometry(256,1,256)
-				, material 
+				, material
 			),
 			shapeType.BOX_MESH,
 			0
 		).setAbsPosition( new THREE.Vector3(0,-10,0) );
 
-		for(let i=0;i< 100; i++){
+		for(let i=0;i< 4; i++){
 			new CPhysicsEntity( this.scene, 
-				new THREE.Mesh( new THREE.BoxGeometry(10,10,10), material ),
+				new THREE.Mesh( new THREE.BoxGeometry(30,3,30), material ),
 				shapeType.BOX_MESH,
 				5
-			).setAbsPosition(new THREE.Vector3(10,i*30,0));
+			).setAbsPosition(new THREE.Vector3( 0 ,i*10 + 100,0));
 		}
+
+		var player = new CBaseCharacter( this.scene );
 		
 		let light = new THREE.DirectionalLight(0xffffff, 1);
 		light.castShadow = true;
@@ -59,7 +62,7 @@ export class CSpellgameGamemode extends CBaseGamemode {
 		//this.camera = new CPointerLockCamera( this.scene, 70,  16  / 9, 0.1, 27000 ).camera;
 		this.camera = new PerspectiveCamera( 90,  16  / 9, 0.1, 27000 );
 		this.camera.position.z = 100;
-		this.camera.position.y = 10;
+		this.camera.position.y = 100;
 	}
 	 
 }
