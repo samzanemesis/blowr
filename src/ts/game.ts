@@ -95,6 +95,10 @@ export class CGamebase {
         copyPass.renderToScreen = true;
 
         this.composer.addPass( renderPass );
+
+        //We pass to the gamemode to add whichever passes it wants
+        this.gamemode.addRenderPasses( this.composer );
+
         //copyPass must be the last one!
         this.composer.addPass( copyPass );
     }

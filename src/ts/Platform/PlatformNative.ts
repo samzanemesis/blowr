@@ -54,6 +54,9 @@ export class CPlatformNative extends CPlatform{
 		  gl.shaderSource = function( shader, string ){
 
 			  string = string.replace(/highp/g,''); //Remove any explict instances of highp
+			  //Signal to some shaders designed for webgl (GLSL 1.00) to use GLSL 1.30
+			  string = string.replace("GLSL_100 1", "GLSL_130 1");
+
 			  string = string.split('\n').filter(function(line){
 				  return ! line.startsWith("precision");
 			  }).join('\n');
