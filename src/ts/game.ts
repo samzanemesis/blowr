@@ -6,6 +6,9 @@ import { CSplashScreenGamemode } from './SplashScreenGamemode'
 
 import { CPlatform } from './Platform/Platform';
 
+import EffectComposer, { RenderPass, ShaderPass, CopyShader } from 'three-effectcomposer-es6'
+//import * as THREE from ;
+
 export var gGameStats: CGameStats;
 
 export class CGamebase {
@@ -13,13 +16,16 @@ export class CGamebase {
     gamemode: CBaseGamemode;
     platform: CPlatform;
     stats   : CGameStats;
+    composer: EffectComposer;
 
     constructor( platform: CPlatform ) {
         this.platform = platform;
         this.renderer = platform.webglStart();
-        
+
         //Change this to your fav gamemode
         this.gamemode = new CSplashScreenGamemode(this);
+
+		this.setupComposer();
 
         this.stats = new CGameStats( platform );
         
@@ -33,8 +39,15 @@ export class CGamebase {
     }
 
     //Maybe move this away from game?
-    setResolution( resolution:{width: number , height: number} ){
-        this.renderer.setSize( resolution.width, resolution.height);
+    setResolution( resolution:{width: number , height: number} ){        
+        this.renderer.setSize( resolution.width, resolution.height );
+
+        // TODO: HORRIBLE HORRIBLE HACK: find out why composer.setSize is messed up instead of
+        // recreating all compositing shaders every time resolution changes
+        this.setupComposer();
+        //this.composer.setSize( resolution.width, resolution.height );
+
+        
         var cameraClass = this.gamemode.camera.constructor.name; 
         var camera;
 
@@ -58,12 +71,36 @@ export class CGamebase {
 
         this.gamemode.preFrame();
         this.gamemode.update();
-        this.renderer.render( this.gamemode.scene , this.gamemode.camera);
+        //this.renderer.render( this.gamemode.scene , this.gamemode.camera);
+        this.composer.render();
         this.gamemode.postFrame();
 
         this.stats.updateFrame();
 
         this.platform.requestAnimationFrame(() => this.render());           
+    }
+
+    setupComposer(){
+        // We could easily do Titanfall-like downscaling for perfomance
+        var renderingScale = 1.0;
+
+
+        var parameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat, stencilBuffer: false };
+        var renderTarget = new THREE.WebGLRenderTarget( this.platform.resolution.width * renderingScale, this.platform.resolution.height * renderingScale, parameters); 
+        this.composer = new EffectComposer(this.renderer, renderTarget);
+
+        var renderPass = new RenderPass(this.gamemode.scene, this.gamemode.camera);     
+
+        var copyPass = new ShaderPass( CopyShader );
+        copyPass.renderToScreen = true;
+
+        this.composer.addPass( renderPass );
+
+        //We pass to the gamemode to add whichever passes it wants
+        this.gamemode.addRenderPasses( this.composer );
+
+        //copyPass must be the last one!
+        this.composer.addPass( copyPass );
     }
 
     start() {
