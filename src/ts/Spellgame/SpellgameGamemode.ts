@@ -5,6 +5,9 @@ import { PerspectiveCamera, MeshStandardMaterial } from "three";
 
 import { CPhysicsEntity, shapeType } from "../PhysicsEntity"
 import { CBaseCharacter } from "../BaseCharacter";
+import { CBasePlayer } from "../BasePlayer";
+import { CBasePlayerController } from "../BasePlayerController";
+import { gPlatform } from "../Platform/Platform";
 
 export class CSpellgameGamemode extends CBaseGamemode {
 	constructor(gamebase: CGamebase){
@@ -30,7 +33,7 @@ export class CSpellgameGamemode extends CBaseGamemode {
 			0
 		).setAbsPosition( new THREE.Vector3(0,-10,0) );
 
-		for(let i=0;i< 4; i++){
+		for(let i=0;i< 50; i++){
 			new CPhysicsEntity( this.scene, 
 				new THREE.Mesh( new THREE.BoxGeometry(30,3,30), material ),
 				shapeType.BOX_MESH,
@@ -38,7 +41,11 @@ export class CSpellgameGamemode extends CBaseGamemode {
 			).setAbsPosition(new THREE.Vector3( 0 ,i*10 + 100,0));
 		}
 
-		var player = new CBaseCharacter( this.scene );
+		//var player = new CBaseCharacter( this.scene );
+		let player = new CBasePlayer( this.scene );
+
+		//Move this away from this, put this after the client fully connects and 
+		new CBasePlayerController( this.scene, player, this.input);
 		
 		let light = new THREE.DirectionalLight(0xffffff, 1);
 		light.castShadow = true;
@@ -56,12 +63,14 @@ export class CSpellgameGamemode extends CBaseGamemode {
 		this.scene.add( light );
 
 		this.scene.add( new THREE.HemisphereLight(0x606060, 0x000000) );
+
+		gPlatform.input.setPointerLockEnabled(true);
 	}
 
 	protected setupLocalPlayer(){
 		//this.camera = new CPointerLockCamera( this.scene, 70,  16  / 9, 0.1, 27000 ).camera;
 		this.camera = new PerspectiveCamera( 90,  16  / 9, 0.1, 27000 );
-		this.camera.position.z = 100;
+		this.camera.position.z = 500;
 		this.camera.position.y = 100;
 	}
 	 

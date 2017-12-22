@@ -4,7 +4,7 @@ import { CBaseEntity } from './BaseEntity';
 import { CPlatform, gPlatform } from "./Platform/Platform"
 import { gGameStats } from "./game"
 
-import * as Ammo from "ammo-node"; //TODO: Get a preprocessor to remove this line on browser builds
+//import * as Ammo from "ammo-node"; //TODO: Get a preprocessor to remove this line on browser builds
 
 export class CScene extends THREE.Scene{
     private entityList: CBaseEntity[] = [];

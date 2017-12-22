@@ -1,4 +1,4 @@
-import { CPlatform } from "./Platform"
+import { CPlatform, CPlatformInputHandler } from "./Platform"
 import { setTimeout } from "timers";
 
 import * as THREE from 'three';
@@ -16,6 +16,10 @@ export class CPlatformNative extends CPlatform{
 		this.forceVsync = false;
 		
 		this.document = require("node-webgl-raub").document()
+
+		this.input = new CPlatformNativeInputHandler( this.document );
+		
+
 		//Finished setting up everything
 		this.waitUntilLoad();
 	}
@@ -91,5 +95,30 @@ export class CPlatformNative extends CPlatform{
 		return renderer;
 	  
 		//init(canvas, gl);
+	}
+}
+
+export class CPlatformNativeInputHandler extends CPlatformInputHandler {
+	platformDocument: any;
+
+	constructor(platformDocument: any){
+		super();
+		this.platformDocument = platformDocument;
+		console.log("cuck");
+		platformDocument.on('mousedown', e => this.onMouseDown( e ) );
+		platformDocument.on('mouseup', e => this.onMouseUp( e ) );
+		platformDocument.on('mousemove', e => this.onMouseMove( e ) );
+		
+		platformDocument.on('keydown', e => this.onKeyDown( e ) );
+		platformDocument.on('keyup', e => this.onKeyUp( e ) );	
+	}
+
+	setPointerLockEnabled(enable: boolean){
+		console.warn("Native context still needs work on pointerlock");
+		if(enable){
+			
+		}else{
+			
+		}
 	}
 }

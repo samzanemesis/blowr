@@ -3,16 +3,20 @@ import { CGamebase } from "./game";
 
 import { CBaseEntity } from "./BaseEntity";
 import { CScene } from "./Scene";
+import { gPlatform, CPlatformInputHandler } from './Platform/Platform';
 
 export class CBaseGamemode{
 
 		public scene    	: CScene;
 		public camera		: THREE.Camera;
+		protected input		: CPlatformInputHandler;
 		private entityList 	: CBaseEntity[];
-	
+		
 		constructor(gamebase: CGamebase){
 			this.setupScene();
 			this.setupLocalPlayer();
+
+			this.input = gPlatform.input;
 		}
 
 		protected setupScene(){

@@ -10,6 +10,8 @@ export class CBaseEntity extends THREE.Geometry{
     networkUpdated: boolean = false;
     networkedInfo: Array<any> = [];
 
+    protected health = 0;
+
     constructor(scene: CScene, model?: string | THREE.Mesh){
         super();
         scene.AddEntityToScene(this);

@@ -106,6 +106,6 @@ class CGameStats{
         this.framerate = this.frameCount;
         this.frameCount = 0;
         console.log(this.framerate);
-        setTimeout( () => this.updateFramerate(), 1000);
+        //setTimeout( () => this.updateFramerate(), 1000);
     }
 }

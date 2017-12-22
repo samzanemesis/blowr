@@ -5,14 +5,14 @@ import * as THREE from 'three';
 
 function createCapsuleMesh(radius: number, height: number){
 	var merged = new THREE.Geometry();
-	var cyl = new THREE.CylinderGeometry(radius, radius, height - radius);
+	var cyl = new THREE.CylinderGeometry(radius, radius, height - (radius*2) );
 	var top = new THREE.SphereGeometry(radius);
 	var bot = new THREE.SphereGeometry(radius);
 	var matrix = new THREE.Matrix4();
-	matrix.makeTranslation(0, (height - radius)/2, 0);
+	matrix.makeTranslation(0, (height*0.5) - radius, 0);
 	top.applyMatrix(matrix);
 	var matrix = new THREE.Matrix4();
-	matrix.makeTranslation(0, -((height - radius)/2), 0);
+	matrix.makeTranslation(0, - ((height*0.5) - radius), 0);
 	bot.applyMatrix(matrix);
 	// merge to create a capsule
 	merged.merge(top);
@@ -24,12 +24,14 @@ function createCapsuleMesh(radius: number, height: number){
 
 export class CBaseCharacter extends CPhysicsEntity{
 
+	protected armor: number;
+
     constructor(scene: CScene, model?: string | THREE.Mesh){
 		if(!model){
 			//32x72x32
-			//var geometry = createCapsuleMesh(16,72);
+			var geometry = createCapsuleMesh(16,72);
 			
-			var geometry = new THREE.CylinderGeometry(16,16,72,10,1);
+			//var geometry = new THREE.CylinderGeometry(16,16,72,10,1);
 			
 			var material = new THREE.MeshPhysicalMaterial( {roughness: 0.5, metalness: 0} );
 			model = new THREE.Mesh(geometry, material);
@@ -40,7 +42,13 @@ export class CBaseCharacter extends CPhysicsEntity{
 
 		//Disable rotation
 		this.body.setAngularFactor( new Ammo.btVector3( 0,0,0 ) );
+		
+		this.setupCharacter()
 	}
 
+	setupCharacter(){
+		this.health = 100;
+		this.armor 	= 0;
+	}
 	
 }
