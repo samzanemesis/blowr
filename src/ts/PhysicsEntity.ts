@@ -77,6 +77,7 @@ export class CPhysicsEntity extends CBaseEntity{
 	}
 	
 	public setAbsVelocity( velocity: THREE.Vector3 ){
+		this.body.activate(true);
 		this.body.setLinearVelocity( new Ammo.btVector3(velocity.x, velocity.y, velocity.z));
 	}
 

@@ -37,15 +37,10 @@ export class CSpellgameGamemode extends CBaseGamemode {
 			new CPhysicsEntity( this.scene, 
 				new THREE.Mesh( new THREE.BoxGeometry(30,3,30), material ),
 				shapeType.BOX_MESH,
-				5
+				50
 			).setAbsPosition(new THREE.Vector3( 0 ,i*10 + 100,0));
 		}
 
-		//var player = new CBaseCharacter( this.scene );
-		let player = new CBasePlayer( this.scene );
-
-		//Move this away from this, put this after the client fully connects and 
-		new CBasePlayerController( this.scene, player, this.input);
 		
 		let light = new THREE.DirectionalLight(0xffffff, 1);
 		light.castShadow = true;
@@ -64,14 +59,15 @@ export class CSpellgameGamemode extends CBaseGamemode {
 
 		this.scene.add( new THREE.HemisphereLight(0x606060, 0x000000) );
 
-		gPlatform.input.setPointerLockEnabled(true);
 	}
 
 	protected setupLocalPlayer(){
-		//this.camera = new CPointerLockCamera( this.scene, 70,  16  / 9, 0.1, 27000 ).camera;
-		this.camera = new PerspectiveCamera( 90,  16  / 9, 0.1, 27000 );
-		this.camera.position.z = 500;
-		this.camera.position.y = 100;
+		let player = new CBasePlayer( this.scene );
+		
+		this.input = gPlatform.input;
+
+		var controller = new CBasePlayerController( this, player, this.input);
+		this.input.setActiveInputContext( controller.inputEvent );
 	}
 	 
 }

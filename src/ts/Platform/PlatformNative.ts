@@ -107,7 +107,6 @@ export class CPlatformNativeInputHandler extends CPlatformInputHandler {
 	constructor(platformDocument: any){
 		super();
 		this.platformDocument = platformDocument;
-		console.log("cuck");
 		platformDocument.on('mousedown', e => this.onMouseDown( e ) );
 		platformDocument.on('mouseup', e => this.onMouseUp( e ) );
 		platformDocument.on('mousemove', e => this.onMouseMove( e ) );

@@ -25,6 +25,8 @@ function createCapsuleMesh(radius: number, height: number){
 export class CBaseCharacter extends CPhysicsEntity{
 
 	protected armor: number;
+	
+	public rotation: THREE.Euler;
 
     constructor(scene: CScene, model?: string | THREE.Mesh){
 		if(!model){
@@ -40,6 +42,8 @@ export class CBaseCharacter extends CPhysicsEntity{
 		let bbox = new THREE.Vector3(32,72,32);
 		super( scene, model, shapeType.CAPSULE_MESH, 70, bbox );
 
+		this.rotation = new THREE.Euler(0,0,0);
+
 		//Disable rotation
 		this.body.setAngularFactor( new Ammo.btVector3( 0,0,0 ) );
 		
@@ -50,5 +54,17 @@ export class CBaseCharacter extends CPhysicsEntity{
 		this.health = 100;
 		this.armor 	= 0;
 	}
+
+	// Characters don't rotate in the usual manner, we only rotate the Y axis on characters,
+	// Other rotations are handled by blendshapes, we don't even need to rotate the physical
+	// body
+	setAbsRotation( rotation: THREE.Euler){
+		this.rotation = rotation;
+        this.mesh.rotation.set( 0,rotation.y,0 );
+	}
+	
+	getAbsRotation(){
+        return this.rotation;
+    }
 	
 }

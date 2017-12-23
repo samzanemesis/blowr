@@ -17,15 +17,18 @@ export class CGamebase {
     platform: CPlatform;
     stats   : CGameStats;
     composer: EffectComposer;
+    renderSettings: {renderScale: number};
 
     constructor( platform: CPlatform ) {
         this.platform = platform;
         this.renderer = platform.webglStart();
 
+        this.renderSettings = {renderScale: 0.5};
+
         //Change this to your fav gamemode
         this.gamemode = new CSplashScreenGamemode(this);
 
-		this.setupComposer();
+        this.setupComposer();
 
         this.stats = new CGameStats( platform );
         
@@ -42,8 +45,7 @@ export class CGamebase {
     setResolution( resolution:{width: number , height: number} ){        
         this.renderer.setSize( resolution.width, resolution.height );
 
-        // TODO: HORRIBLE HORRIBLE HACK: find out why composer.setSize is messed up instead of
-        // recreating all compositing shaders every time resolution changes
+        // This could be optimized, find out why composer.setSize messes aspect ratio
         this.setupComposer();
         //this.composer.setSize( resolution.width, resolution.height );
 
@@ -81,9 +83,7 @@ export class CGamebase {
     }
 
     setupComposer(){
-        // We could easily do Titanfall-like downscaling for perfomance
-        var renderingScale = 1.0;
-
+        var renderingScale = this.renderSettings.renderScale;
 
         var parameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat, stencilBuffer: false };
         var renderTarget = new THREE.WebGLRenderTarget( this.platform.resolution.width * renderingScale, this.platform.resolution.height * renderingScale, parameters); 

@@ -16,10 +16,14 @@ export class CBaseGamemode{
 		public camera		: THREE.Camera;
 		protected input		: CPlatformInputHandler;
 		private entityList 	: CBaseEntity[];
+
+		private renderSettings: { renderScale:number};
 		
 		constructor(gamebase: CGamebase){
 			this.setupScene();
 			this.setupLocalPlayer();
+			
+			this.renderSettings = gamebase.renderSettings;
 
 			this.input = gPlatform.input;
 		}
@@ -36,7 +40,8 @@ export class CBaseGamemode{
 		//Add whichever render passes the gamemode wants to the EffectComposer, by default, pass FXAA
 		public addRenderPasses( composer: EffectComposer ){
 			var effectFXAA = new ShaderPass( FXAAShader );
-			effectFXAA.uniforms[ 'resolution' ].value.set( 1 / gPlatform.resolution.width, 1 / gPlatform.resolution.height );
+			var renderScale = this.renderSettings.renderScale;
+			effectFXAA.uniforms[ 'resolution' ].value.set( 1 / (gPlatform.resolution.width * renderScale), 1 / (gPlatform.resolution.height * renderScale) );
 		  	composer.addPass( effectFXAA );
 		}
 

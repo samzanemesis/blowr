@@ -41,10 +41,14 @@ export class CPlatformInputHandler {
 	mousePos: {x: number, y: number};
 	mouseSpeed: {x: number, y: number};
 	keysDown: Array<boolean> = [];
+	inputContext: ( e ) => any;
 
 	constructor(){
+		this.mouseSpeed = {	x: 0, y: 0 };
+		this.mousePos = { x: 0, y: 0 };
+
+		this.inputContext = () => {};
 	}
-	
 	onMouseDown( e : MouseEvent){
 
 	}
@@ -57,21 +61,28 @@ export class CPlatformInputHandler {
 		if(this.mousePos)
 			this.mouseSpeed = {	x: mousePos.x - this.mousePos.x,
 								y: mousePos.y - this.mousePos.y };
-		this.mousePos = mousePos; 
+
+		this.mousePos = mousePos;
 	}
 
 	onKeyDown( e : KeyboardEvent ){
 		console.log( "Down " + e.keyCode );
 		this.keysDown[e.keyCode] = true;
+
+		this.inputContext( e );
 	}
 
 	onKeyPress( e : KeyboardEvent ){
 		console.log( "Pressing " + e.keyCode );
+		
+		this.inputContext( e );
 	}
 	
 	onKeyUp( e : KeyboardEvent ){
 		console.log( "Released " + e.keyCode );
 		this.keysDown[e.keyCode] = false;
+		
+		this.inputContext( e );
 	}
 
 	setPointerLockEnabled(enable: boolean){
@@ -80,6 +91,11 @@ export class CPlatformInputHandler {
 		}else{
 
 		}
+	}
+
+	//Most things will require a dedicated
+	setActiveInputContext( context ){
+		this.inputContext = context;
 	}
 }
 

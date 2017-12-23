@@ -4,7 +4,7 @@ import { CBaseEntity } from './BaseEntity';
 import { CPlatform, gPlatform } from "./Platform/Platform"
 import { gGameStats } from "./game"
 
-//import * as Ammo from "ammo-node"; //TODO: Get a preprocessor to remove this line on browser builds
+import * as Ammo from "ammo-node"; //TODO: Get a preprocessor to remove this line on browser builds
 
 export class CScene extends THREE.Scene{
     private entityList: CBaseEntity[] = [];
@@ -25,6 +25,9 @@ export class CScene extends THREE.Scene{
             entity.simulate();
             entity.postSimulate();
         })
+
+        //Reset movespeed after the frame
+        gPlatform.input.mouseSpeed = {x:0,y:0};
     }
     
     AddEntityToScene(entity:CBaseEntity){
