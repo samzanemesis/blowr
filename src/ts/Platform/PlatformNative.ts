@@ -1,5 +1,6 @@
 import { CPlatform, CPlatformInputHandler } from "./Platform"
 import { setTimeout } from "timers";
+import { Document } from "node-webgl-raub";
 
 import * as THREE from 'three';
 
@@ -15,7 +16,7 @@ export class CPlatformNative extends CPlatform{
 
 		this.forceVsync = false;
 		
-		this.document = require("node-webgl-raub").document()
+		this.document = new Document()
 
 		this.input = new CPlatformNativeInputHandler( this.document );
 		
