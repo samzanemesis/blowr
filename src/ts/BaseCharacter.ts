@@ -26,6 +26,8 @@ export class CBaseCharacter extends CPhysicsEntity{
 
 	protected armor: number;
 	
+	protected maxSpeed ;
+
 	public rotation: THREE.Euler;
 
     constructor(scene: CScene, model?: string | THREE.Mesh){
@@ -50,9 +52,32 @@ export class CBaseCharacter extends CPhysicsEntity{
 		this.setupCharacter()
 	}
 
+	simulate(){
+		super.simulate();
+
+		var dispatcher = this.scene.getPhysicsWorld().getDispatcher();
+		//Number of objects being collided
+		var numManifolds = dispatcher.getNumManifolds();
+
+		for (let i = 0; i < numManifolds; i++)
+		{
+			let contactManifold = dispatcher.getManifoldByIndexInternal(i);
+			let body0 = contactManifold.getBody0();
+			let body1 = contactManifold.getBody1();
+
+			let numContacts = contactManifold.getNumContacts();
+			for (let j = 0; j < numContacts; j++)
+			{
+				//contactManifold.getBody0().setAbsVelocity( new THREE.Vector3(0,-1000,0) );
+			}
+		}
+
+	}
+
 	setupCharacter(){
 		this.health = 100;
 		this.armor 	= 0;
+		this.maxSpeed = 200;
 	}
 
 	// Characters don't rotate in the usual manner, we only rotate the Y axis on characters,

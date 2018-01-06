@@ -11,7 +11,7 @@ import { CBaseEntity } from "./BaseEntity";
 import { CScene } from "./Scene";
 import { CBasePlayer } from "./BasePlayer";
 
-import { CPlatformInputHandler } from "./Platform/Platform";
+import { CPlatformInputHandler, gPlatform } from "./Platform/Platform";
 import { CBaseGamemode } from "./BaseGamemode";
 
 export class CBasePlayerController extends CBaseEntity{
@@ -30,6 +30,8 @@ export class CBasePlayerController extends CBaseEntity{
 		//Change gamemode's camera to the one the player's controlling
 		gamemode.camera = this.camera;
 		this.input = input;
+
+		gPlatform.input.setPointerLockEnabled(true);
 	}
 
 	simulate(){
@@ -37,11 +39,17 @@ export class CBasePlayerController extends CBaseEntity{
 		this.camera.position.set( playerPos.x, playerPos.y, playerPos.z );
 
 		//Rotate camera
-		var rotation = new THREE.Euler( this.camera.rotation.x + this.input.mouseSpeed.y * 0.01,
-			this.camera.rotation.y + this.input.mouseSpeed.x * 0.01,
+		var rotation = new THREE.Euler( this.camera.rotation.x - (this.input.mouseSpeed.y * 0.01),
+			this.camera.rotation.y - (this.input.mouseSpeed.x * 0.01),
 			0,
 			"YXZ"
 		);
+
+		if(rotation.x > 2)
+			rotation.x = 2;
+		if(rotation.x < -2)
+			rotation.x = -2;
+
 		this.camera.rotation.copy(rotation);
 		this.player.setAbsRotation(rotation);
 

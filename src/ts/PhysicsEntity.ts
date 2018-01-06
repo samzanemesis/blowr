@@ -36,7 +36,7 @@ export class CPhysicsEntity extends CBaseEntity{
 	
 		var info = physicsBuilder.createRigidBodyInfo(physicsShape, mass );
 		var body = new Ammo.btRigidBody(info);
-
+		body.setFriction(1.0);
 		this.scene.addRigidBody(body);
 		
 
@@ -85,6 +85,11 @@ export class CPhysicsEntity extends CBaseEntity{
 		this.body.setAngularVelocity(  new Ammo.btVector3(velocity.x, velocity.y, velocity.z));
 	}
 
+
+	public getAbsVelocity(){
+		var velocity = this.body.getLinearVelocity();
+		return new THREE.Vector3( velocity.x(), velocity.y(), velocity.z() );
+	}
 	simulate(){
 		super.simulate();
 		this.updatePhysics();

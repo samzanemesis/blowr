@@ -1,6 +1,5 @@
 import { CBaseGamemode } from "../BaseGamemode"
 import { THREE, CGamebase, CScene, CBaseEntity } from "../Common"
-import { CPointerLockCamera } from "../PointerLockCamera"
 import { PerspectiveCamera, MeshStandardMaterial } from "three";
 
 import { CPhysicsEntity, shapeType } from "../PhysicsEntity"
@@ -21,12 +20,12 @@ export class CSpellgameGamemode extends CBaseGamemode {
 		var modelLoader = new THREE.JSONLoader();
 
 		var geometry = new THREE.BoxGeometry(30,30,30);
-		var material = new THREE.MeshPhysicalMaterial( { metalness: 0.5 , roughness: 0.4 } );
+		var material = new THREE.MeshPhysicalMaterial( { metalness: 0.0 , roughness: 0.4, color: 0x555500 } );
 		var mesh = new THREE.Mesh( geometry, material );
 
 		var ground = new CPhysicsEntity( this.scene, 
 			new THREE.Mesh( 
-				new THREE.BoxGeometry(256,1,256)
+				new THREE.BoxGeometry(1024,10,1024)
 				, material
 			),
 			shapeType.BOX_MESH,
@@ -35,9 +34,9 @@ export class CSpellgameGamemode extends CBaseGamemode {
 
 		for(let i=0;i< 50; i++){
 			new CPhysicsEntity( this.scene, 
-				new THREE.Mesh( new THREE.BoxGeometry(30,3,30), material ),
+				new THREE.Mesh( new THREE.BoxGeometry(30,5,30), material ),
 				shapeType.BOX_MESH,
-				50
+				500
 			).setAbsPosition(new THREE.Vector3( 0 ,i*10 + 100,0));
 		}
 
