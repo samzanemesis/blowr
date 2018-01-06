@@ -104,6 +104,7 @@ export class CPlatformNative extends CPlatform{
 
 export class CPlatformNativeInputHandler extends CPlatformInputHandler {
 	platformDocument: any;
+	mouseLocked = false;
 
 	constructor(platformDocument: any){
 		super();
@@ -116,12 +117,23 @@ export class CPlatformNativeInputHandler extends CPlatformInputHandler {
 		platformDocument.on('keyup', e => this.onKeyUp( e ) );	
 	}
 
+	onMouseMove( e : MouseEvent){
+		let mousePos = { x: e.x, y: e.y };
+
+		let halfWindowPos = { x: this.platformDocument.width  /2,
+							  y: this.platformDocument.height /2};
+
+		if(this.mousePos)
+			this.mouseSpeed = {	x: mousePos.x - halfWindowPos.x,
+								y: mousePos.y - halfWindowPos.y };
+
+		if(this.platformDocument && this.mouseLocked)
+			this.platformDocument.cursorPos = halfWindowPos;						
+
+		this.mousePos = mousePos;
+	}
+
 	setPointerLockEnabled(enable: boolean){
-		console.warn("Native context still needs work on pointerlock");
-		if(enable){
-			
-		}else{
-			
-		}
+		this.mouseLocked = enable;
 	}
 }
