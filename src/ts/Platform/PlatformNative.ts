@@ -57,7 +57,7 @@ export class CPlatformNative extends CPlatform{
 		  // Hack for three.js, remove precision from shader
 		  var parentShaderSource = gl.shaderSource;
 		  gl.shaderSource = function( shader, string ){
-
+			  string = "#version 400\n" + string;
 			  string = string.replace(/highp/g,''); //Remove any explict instances of highp
 			  //Signal to some shaders designed for webgl (GLSL 1.00) to use GLSL 1.30
 			  string = string.replace("GLSL_100 1", "GLSL_130 1");

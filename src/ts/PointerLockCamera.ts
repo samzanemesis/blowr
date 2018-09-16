@@ -1,6 +1,6 @@
 import { THREE, CBaseEntity, CScene } from "./Common";
 
-import * as PointerLockControls from "three-pointerlock";
+//import * as PointerLockControls from "three-pointerlock";
 
 export class CPointerLockCamera extends CBaseEntity {
 

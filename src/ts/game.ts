@@ -23,7 +23,7 @@ export class CGamebase {
         this.platform = platform;
         this.renderer = platform.webglStart();
 
-        this.renderSettings = {renderScale: 0.5};
+        this.renderSettings = {renderScale: 1.0};
 
         //Change this to your fav gamemode
         this.gamemode = new CSplashScreenGamemode(this);

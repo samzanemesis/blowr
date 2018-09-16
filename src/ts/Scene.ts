@@ -46,7 +46,7 @@ export class CScene extends THREE.Scene{
 		const solver = new Ammo.btSequentialImpulseConstraintSolver();
 
 		this.physicsWorld = new Ammo.btDiscreteDynamicsWorld( dispatcher, overlappingPairCache, solver, collisionConfiguration);
-		this.physicsWorld.setGravity( new Ammo.btVector3(0, -200, 0));
+		this.physicsWorld.setGravity( new Ammo.btVector3(0, -400, 0));
     }
 
     addRigidBody(body){

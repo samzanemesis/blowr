@@ -1,0 +1,73 @@
+{
+	"metadata": {
+		"version": 4.5,
+		"type": "Object",
+		"generator": "Object3D.toJSON"
+	},
+	"geometries": [
+		{
+			"uuid": "D0961BC8-49EB-4797-A560-353458905E84",
+			"type": "TorusKnotBufferGeometry",
+			"radius": 1,
+			"tube": 0.4,
+			"tubularSegments": 64,
+			"radialSegments": 8,
+			"p": 2,
+			"q": 3
+		},
+		{
+			"uuid": "B6FFA0B2-8D66-4855-8200-427FB669AFE1",
+			"type": "PlaneBufferGeometry",
+			"width": 1,
+			"height": 1,
+			"widthSegments": 1,
+			"heightSegments": 1
+		}],
+	"materials": [
+		{
+			"uuid": "A298DA50-938B-4F85-A1D3-0CE38AD85825",
+			"type": "MeshStandardMaterial",
+			"color": 16777215,
+			"roughness": 0.5,
+			"metalness": 0.5,
+			"emissive": 0,
+			"depthFunc": 3,
+			"depthTest": true,
+			"depthWrite": true
+		},
+		{
+			"uuid": "8D743937-0F8A-44B3-8726-AEB1B478AAF9",
+			"type": "MeshStandardMaterial",
+			"color": 16777215,
+			"roughness": 0.5,
+			"metalness": 0.5,
+			"emissive": 0,
+			"depthFunc": 3,
+			"depthTest": true,
+			"depthWrite": true
+		}],
+	"object": {
+		"uuid": "FE93FCAC-A422-47A4-BAA3-E1F77399FA11",
+		"type": "Scene",
+		"name": "Scene",
+		"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+		"children": [
+			{
+				"uuid": "45786FCF-DE84-4CE5-AA0B-51F2D1FE3F9C",
+				"type": "Mesh",
+				"name": "TorusKnot",
+				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+				"geometry": "D0961BC8-49EB-4797-A560-353458905E84",
+				"material": "A298DA50-938B-4F85-A1D3-0CE38AD85825"
+			},
+			{
+				"uuid": "4ADFD808-8A7E-4BA4-B33C-1147F82340EE",
+				"type": "Mesh",
+				"name": "Plane",
+				"matrix": [100,0,0,0,0,0,-100,0,0,100,0,0,0,-8.202024,0,1],
+				"geometry": "B6FFA0B2-8D66-4855-8200-427FB669AFE1",
+				"material": "8D743937-0F8A-44B3-8726-AEB1B478AAF9"
+			}],
+		"background": 11184810
+	}
+}

@@ -14,13 +14,16 @@ export class CBasePlayer extends CBaseCharacter{
 	
 	public localPlayer = false; //Is this a locally controlled player?
 	
-	public moveDirection = { fwd: 0, right: 0, up: 0 }; 
+	public moveDirection = { fwd: 0, right: 0, up: 0 };
+	public viewOffset: THREE.Vector3;
 	
 	constructor(scene: CScene, model?: string | THREE.Mesh){
 		super(scene, model);
 		//this.body.setFriction(0.5);
 		
 		this.body.setFriction(1.0); //Hack
+
+		this.viewOffset = new THREE.Vector3(0,0,24);
 	}
 
 	simulate(){
@@ -64,5 +67,9 @@ export class CBasePlayer extends CBaseCharacter{
 
 		//Reset after simulated;
 		this.moveDirection = { fwd: 0, right: 0, up: 0 }; 
+	}
+
+	jump(){
+		this.setAbsVelocity( new THREE.Vector3(0,200,0) );
 	}
 }

@@ -36,7 +36,7 @@ export class CBasePlayerController extends CBaseEntity{
 
 	simulate(){
 		var playerPos = this.player.getAbsPosition();
-		this.camera.position.set( playerPos.x, playerPos.y, playerPos.z );
+		this.camera.position.set( playerPos.x, playerPos.y + 20 , playerPos.z );
 
 		//Rotate camera
 		var rotation = new THREE.Euler( this.camera.rotation.x - (this.input.mouseSpeed.y * 0.01),
@@ -45,10 +45,10 @@ export class CBasePlayerController extends CBaseEntity{
 			"YXZ"
 		);
 
-		if(rotation.x > 2)
-			rotation.x = 2;
-		if(rotation.x < -2)
-			rotation.x = -2;
+		if(rotation.x > Math.PI/2)
+			rotation.x = Math.PI/2;
+		if(rotation.x < -Math.PI/2)
+			rotation.x = -Math.PI/2;
 
 		this.camera.rotation.copy(rotation);
 		this.player.setAbsRotation(rotation);

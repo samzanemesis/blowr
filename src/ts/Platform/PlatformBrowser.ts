@@ -18,7 +18,7 @@ export class CPlatformBrowser extends CPlatform{
 
 		window.onresize = () => {
 			this.resolution = {width: window.innerWidth, height: window.innerHeight};
-			this.onresize();
+			//this.onresize();
 		}
 		
 	};
@@ -68,8 +68,8 @@ export class CPlatformBrowserInputHandler extends CPlatformInputHandler {
 		
 		this.mousePos = mousePos;
 
-		this.mouseSpeed = {	x: e.movementX || e.mozMovementX || e.webkitMovementX,
-							y: e.movementY || e.mozMovementY || e.webkitMovementY };
+		this.mouseSpeed = {	x: e.movementX ,
+							y: e.movementY  };
 
 		//console.log(this.mouseSpeed);
 	}

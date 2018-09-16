@@ -8,7 +8,6 @@ import { gPlatform, CPlatformInputHandler } from './Platform/Platform';
 import EffectComposer, { RenderPass, ShaderPass, CopyShader } from 'three-effectcomposer-es6'
 
 import { FXAAShader } from "./shaders/FXAAShader"
-import { gPlatform } from './Platform/Platform';
 
 export class CBaseGamemode{
 
@@ -27,6 +26,7 @@ export class CBaseGamemode{
 
 			this.input = gPlatform.input;
 		}
+		
 
 		protected setupScene(){
 			this.scene = new CScene();

@@ -20,7 +20,7 @@ export class CSpellgameGamemode extends CBaseGamemode {
 		var modelLoader = new THREE.JSONLoader();
 
 		var geometry = new THREE.BoxGeometry(30,30,30);
-		var material = new THREE.MeshPhysicalMaterial( { metalness: 0.0 , roughness: 0.4, color: 0x555500 } );
+		var material = new THREE.MeshBasicMaterial();
 		var mesh = new THREE.Mesh( geometry, material );
 
 		var ground = new CPhysicsEntity( this.scene, 
@@ -42,7 +42,7 @@ export class CSpellgameGamemode extends CBaseGamemode {
 
 		
 		let light = new THREE.DirectionalLight(0xffffff, 1);
-		light.castShadow = true;
+		light.castShadow = false;
 		light.position.set(50, 100, 50);
 		const d = 100;
 		light.shadow.camera.left = -d;
@@ -58,6 +58,23 @@ export class CSpellgameGamemode extends CBaseGamemode {
 
 		this.scene.add( new THREE.HemisphereLight(0x606060, 0x000000) );
 
+		//var jsonLoader = new THREE.JSONLoader();
+		//jsonLoader.load("maps/colloseum/scene.json", this.addModelToScene);
+		//var fs = require('fs');	
+		//var map = fs.readFileSync("maps/colloseum/scene.json");
+		//var json = JSON.parse(map);	
+		//console.log( json );
+		//var object = jsonLoader.parse( json );
+		//onLoad( object.geometry, object.materials );
+		
+	}
+
+
+	addModelToScene(geometry, materials) {
+		var material = new THREE.MeshFaceMaterial(materials);
+		var object = new THREE.Mesh(geometry, material);
+		object.scale.set(10, 10, 10);
+		this.scene.add(object);
 	}
 
 	protected setupLocalPlayer(){

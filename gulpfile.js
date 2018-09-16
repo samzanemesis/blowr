@@ -21,7 +21,7 @@ var browserifyTS = browserify({
     entries: ['src/ts/main.ts'],
     cache: {},
     packageCache: {}
-}).plugin(tsify).ignore('ammo-node');
+}).plugin(tsify).ignore('ammo-node').ignore('node-glfw-raub').ignore('node-webgl-raub');
 
 var watchedBrowserify = watchify(browserifyTS);
 

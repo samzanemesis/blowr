@@ -20,9 +20,9 @@ export class CPhysicsBuilder{
     public getPhysicsShape( shape: shapeType, bbox?: THREE.Vector3 ){
         let physicsShape;
 
-        if(!bbox)
-            bbox = new THREE.Box3().setFromObject( this.mesh ).getSize();
-            
+		if(!bbox)
+			bbox = new THREE.Box3().setFromObject( this.mesh ).getSize(bbox);
+			 
         bbox = bbox.multiply( new THREE.Vector3( 0.5, 0.5, 0.5) );
 
 		switch(shape){
