@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run web",
-    "web": "node build.js > public/bundle.js",
+    "web": "node build.js > dist/bundle.js",
     "native": "gulp native && node dist_native/main.js"
   },
   "engines": {
@@ -24,8 +24,8 @@
     "natives": "^1.1.5",
     "node-3d-ready-raub": "latest",
     "performance-now": "^2.1.0",
-    "three": "0.90.0",
-    "three-effectcomposer-es6": "0.0.4"
+    "three": "0.94.0",
+    "@johh/three-effectcomposer": "latest"
   },
   "devDependencies": {
     "browserify": "^14.5.0",
