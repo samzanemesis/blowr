@@ -1,4 +1,4 @@
-import { CPlatform, CPlatformInputHandler } from "./Platform"
+import { CPlatform, CPlatformIOHandler, CPlatformInputHandler } from "./Platform"
 import * as THREE from 'three';
 
 
@@ -9,9 +9,9 @@ export class CPlatformBrowser extends CPlatform{
 
 		console.log("Running on Browser");
 
-		console.log( document );
 		this.input = new CPlatformBrowserInputHandler();
-		
+		this.io = new CPlatformBrowserIOHandler();
+
 		window.onload = () => {
 			this.onload();
 		};
@@ -37,13 +37,21 @@ export class CPlatformBrowser extends CPlatform{
 
 	webglStart(){
 		var renderer = new THREE.WebGLRenderer({ alpha: false, antialias: false });
-		renderer.setClearColor(0x555555, 1);
+		renderer.setClearColor(0x003300, 1);
 		document.getElementById('content').appendChild( renderer.domElement );
 		
 		
 
 		renderer.domElement.id = "gameCanvas";
 		return renderer;
+	}
+}
+
+export class CPlatformBrowserIOHandler extends CPlatformIOHandler
+{
+	constructor()
+	{
+		super();
 	}
 }
 

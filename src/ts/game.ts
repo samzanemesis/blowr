@@ -6,7 +6,7 @@ import { CSplashScreenGamemode } from './SplashScreenGamemode'
 
 import { CPlatform } from './Platform/Platform';
 
-import EffectComposer, { RenderPass, ShaderPass, CopyShader } from 'three-effectcomposer-es6'
+import EffectComposer, { RenderPass, ShaderPass, CopyShader } from '@johh/three-effectcomposer'
 //import * as THREE from ;
 
 export var gGameStats: CGameStats;
@@ -105,8 +105,11 @@ export class CGamebase {
 
     start() {
         this.renderer.shadowMap.enabled = true;
+        this.renderer.toneMapping = THREE.ReinhardToneMapping;
         this.render();
     }
+
+    
 }
 
 class CGameStats{

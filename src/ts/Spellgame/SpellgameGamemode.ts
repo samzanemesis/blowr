@@ -8,6 +8,11 @@ import { CBasePlayer } from "../BasePlayer";
 import { CBasePlayerController } from "../BasePlayerController";
 import { gPlatform } from "../Platform/Platform";
 
+import EffectComposer, { RenderPass, ShaderPass, CopyShader } from '@johh/three-effectcomposer'
+import { UnrealBloomPass } from "../shaders/UnrealBloom"
+
+import { CSpellgameSky } from "./SpellgameSky"
+
 export class CSpellgameGamemode extends CBaseGamemode {
 	constructor(gamebase: CGamebase){
 		super(gamebase);
@@ -20,7 +25,9 @@ export class CSpellgameGamemode extends CBaseGamemode {
 		var modelLoader = new THREE.JSONLoader();
 
 		var geometry = new THREE.BoxGeometry(30,30,30);
-		var material = new THREE.MeshBasicMaterial();
+		//var material = new THREE.MeshBasicMaterial();
+		var material = new THREE.MeshNormalMaterial(  );
+		//var material = new THREE.MeshBasicMaterial( { color: 0x555500 } );
 		var mesh = new THREE.Mesh( geometry, material );
 
 		var ground = new CPhysicsEntity( this.scene, 
@@ -40,9 +47,10 @@ export class CSpellgameGamemode extends CBaseGamemode {
 			).setAbsPosition(new THREE.Vector3( 0 ,i*10 + 100,0));
 		}
 
+		new CSpellgameSky( this.scene );
 		
-		let light = new THREE.DirectionalLight(0xffffff, 1);
-		light.castShadow = false;
+		var light = new THREE.DirectionalLight(0xffffff, 1);
+		light.castShadow = true;
 		light.position.set(50, 100, 50);
 		const d = 100;
 		light.shadow.camera.left = -d;
@@ -55,17 +63,11 @@ export class CSpellgameGamemode extends CBaseGamemode {
 		light.shadow.mapSize.y = 1024;
 		
 		this.scene.add( light );
+		
+		var commonLight = new THREE.PointLight();
+		this.scene.add(commonLight);
 
 		this.scene.add( new THREE.HemisphereLight(0x606060, 0x000000) );
-
-		//var jsonLoader = new THREE.JSONLoader();
-		//jsonLoader.load("maps/colloseum/scene.json", this.addModelToScene);
-		//var fs = require('fs');	
-		//var map = fs.readFileSync("maps/colloseum/scene.json");
-		//var json = JSON.parse(map);	
-		//console.log( json );
-		//var object = jsonLoader.parse( json );
-		//onLoad( object.geometry, object.materials );
 		
 	}
 
@@ -76,6 +78,20 @@ export class CSpellgameGamemode extends CBaseGamemode {
 		object.scale.set(10, 10, 10);
 		this.scene.add(object);
 	}
+
+	public addRenderPasses( composer: EffectComposer ){
+		
+		this.bloomPass(composer);
+		super.addRenderPasses(composer);
+	}
+
+	private bloomPass( composer: EffectComposer )
+    {
+		var renderScale = this.renderSettings.renderScale;
+        var bloomPass = new UnrealBloomPass( new THREE.Vector2( gPlatform.resolution.width * renderScale, gPlatform.resolution.height * renderScale ), 1.0, 1.0, 0.8);
+        //bloomPass.renderToScreen = true;
+        composer.addPass(bloomPass);
+    }
 
 	protected setupLocalPlayer(){
 		let player = new CBasePlayer( this.scene );

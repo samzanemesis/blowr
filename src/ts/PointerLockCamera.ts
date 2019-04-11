@@ -11,12 +11,6 @@ export class CPointerLockCamera extends CBaseEntity {
 		super(scene);
 		this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 		this.camera.position.z = 10;
-		//this.controls = new PointerLockControls( this.camera );
-		//this.controls.enabled = true;
-		
-		//this.scene.add( this.controls.getObject() );
-
-		console.log("FUCK");
 	}
 
 	simulate(){

@@ -7,6 +7,7 @@ export class CPlatform{
 	operatingSystem: String
 	resolution: { width: number, height:number };
 	input: CPlatformInputHandler;
+	io: CPlatformIOHandler;
 	onload: () => any;
 	onresize: () => any;
 
@@ -17,7 +18,9 @@ export class CPlatform{
 			if(isNode){
 				//Running on NodeJS platform
 				return new CPlatformNative();
-			}else{
+			}
+			else
+			{
 				//Running on a browser platform
 				return new CPlatformBrowser();
 			}
@@ -33,6 +36,30 @@ export class CPlatform{
 	now(){ return 0; };
 
 	render(scene: THREE.Scene, camera: THREE.Camera, renderTarget?: THREE.RenderTarget, forceClear?: boolean){};
+}
+
+export class CPlatformIOHandler 
+{
+	constructor()
+	{
+
+	}
+
+	readFile(file)
+	{
+	}
+
+	readFileAsync(file)
+	{
+	}
+
+	writeFile(file)
+	{
+	}
+
+	writeFileAsync(file)
+	{
+	}
 }
 
 export class CPlatformInputHandler {

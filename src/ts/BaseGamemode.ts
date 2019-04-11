@@ -5,7 +5,7 @@ import { CBaseEntity } from "./BaseEntity";
 import { CScene } from "./Scene";
 import { gPlatform, CPlatformInputHandler } from './Platform/Platform';
 
-import EffectComposer, { RenderPass, ShaderPass, CopyShader } from 'three-effectcomposer-es6'
+import EffectComposer, { RenderPass, ShaderPass, CopyShader } from '@johh/three-effectcomposer'
 
 import { FXAAShader } from "./shaders/FXAAShader"
 
@@ -16,7 +16,7 @@ export class CBaseGamemode{
 		protected input		: CPlatformInputHandler;
 		private entityList 	: CBaseEntity[];
 
-		private renderSettings: { renderScale:number};
+		protected renderSettings: { renderScale:number};
 		
 		constructor(gamebase: CGamebase){
 			this.setupScene();

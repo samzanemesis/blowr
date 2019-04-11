@@ -4,6 +4,7 @@ import { Document } from "node-webgl-raub";
 
 import * as THREE from 'three';
 
+
 //requestAnimationFrame = document.requestAnimationFrame;
 
 export class CPlatformNative extends CPlatform{
@@ -20,6 +21,8 @@ export class CPlatformNative extends CPlatform{
 
 		this.input = new CPlatformNativeInputHandler( this.document );
 		
+		//Load Node Ammo
+		const Ammo = require('ammo-node');
 
 		//Finished setting up everything
 		this.waitUntilLoad();
@@ -59,8 +62,8 @@ export class CPlatformNative extends CPlatform{
 		  gl.shaderSource = function( shader, string ){
 			  string = "#version 400\n" + string;
 			  string = string.replace(/highp/g,''); //Remove any explict instances of highp
-			  //Signal to some shaders designed for webgl (GLSL 1.00) to use GLSL 1.30
-			  string = string.replace("GLSL_100 1", "GLSL_130 1");
+			  //Signal to some shaders designed for webgl (GLSL 1.00) to use GLSL 1.30, could go higher
+			  string = string.replace("GLSL_100 1", "GLSL_200 1");
 
 			  string = string.split('\n').filter(function(line){
 				  return ! line.startsWith("precision");
@@ -70,7 +73,7 @@ export class CPlatformNative extends CPlatform{
 		  };
 	  
 		  gl.viewportWidth = canvas.width;
-		  gl.viewportHeight = canvas.height;
+		  gl.viewportHeight = canvas.height
 		  this.resolution = { width: canvas.width, height: canvas.height };
 
 		  //console.log(gl);
