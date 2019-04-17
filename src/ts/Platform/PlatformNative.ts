@@ -4,16 +4,17 @@ import { Document } from "node-webgl-raub";
 
 import * as THREE from 'three';
 
-
-//requestAnimationFrame = document.requestAnimationFrame;
-
 export class CPlatformNative extends CPlatform{
 	document: any;
+
 	forceVsync: Boolean
 	
 	constructor(){
 		super(false);
 		console.log("Running as Native!");
+
+		//Hack fix for ThreeJS bitching about WebVR by emulating Navigator
+		global.navigator = require("navigator");
 
 		this.forceVsync = false;
 		
@@ -93,7 +94,7 @@ export class CPlatformNative extends CPlatform{
 		var renderer = new THREE.WebGLRenderer({
 			canvas: canvas,
 			//context: gl,
-			alpha: false
+			alpha: false,
 		});
 
 		renderer.context = gl;
